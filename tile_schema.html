@@ -6,8 +6,28 @@
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v3.20.0/build/ol.js"></script>
+    
     <!-- style -->
     <link rel="stylesheet" href="https://openlayers.org/en/v4.4.1/css/ol.css">
+
+    <style type="text/css">
+
+      /* for full page map */
+      html, body {
+        margin: 0;
+        height: 100%;
+
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+
   </head>
   <body>
     <div id="map" class="map"></div>
