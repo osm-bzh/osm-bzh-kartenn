@@ -93,17 +93,28 @@
 
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      // the osm tiles service
+      // the osm tiles services
 
-      var osm_source = new ol.source.XYZ({
+      // OSM BR
+      var osm_br_source = new ol.source.XYZ({
         url: 'http://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png'
       });
-
-      var layerOsm = new ol.layer.Tile({
+      var layerOsmBr = new ol.layer.Tile({
         title: 'OpenStreetMap BZH',
         type: 'base',
         visible: true,
-        source: osm_source
+        source: osm_br_source
+      });
+
+      // OSM FR
+      var osm_fr_source = new ol.source.XYZ({
+        url: 'http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+      });
+      var layerOsmFr = new ol.layer.Tile({
+        title: 'OpenStreetMap FR',
+        type: 'base',
+        visible: false,
+        source: osm_fr_source
       });
 
 
@@ -117,7 +128,7 @@
         layers: [
             new ol.layer.Group({
                 'title': 'Foñs kartenn',
-                layers: [layerOsm]
+                layers: [layerOsmFr, layerOsmBr]
             }),
             new ol.layer.Group({
                 title: 'Livadennoù',
