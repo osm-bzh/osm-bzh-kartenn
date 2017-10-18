@@ -17,6 +17,9 @@
       <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
       <!-- layer switcher -->
       <script src="http://rawgit.com/walkermatt/ol3-layerswitcher/master/src/ol3-layerswitcher.js"></script>
+      <!-- geocoder for search -->
+      <script src="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
+      <script src="https://unpkg.com/ol-popup@2.0.0"></script>
 
 
     <!-- the linked styles -->
@@ -24,6 +27,9 @@
       <link rel="stylesheet" href="https://openlayers.org/en/v4.4.1/css/ol.css">
       <!-- layer switcher -->
       <link rel="stylesheet" type="text/css" href="http://rawgit.com/walkermatt/ol3-layerswitcher/master/src/ol3-layerswitcher.css">
+      <!-- geocoder for search -->
+      <link rel="stylesheet" href="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.min.css">
+      <link rel="stylesheet" href="https://unpkg.com/ol-popup@2.0.0/src/ol-popup.css" />
 
     
     <!-- the overrides styles, directly below -->
@@ -203,6 +209,50 @@
           tipLabel: 'Légende' // Optional label for button
       });
       map.addControl(layerSwitcher);
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  for the geocoder / nominatim
+
+      var geocoder = new Geocoder('nominatim', {
+        provider: 'osm',
+        targetType: 'text-input',
+        lang: 'br',
+        placeholder: 'Klaskañ...',
+        limit: 10,
+        keepOpen: false,
+        preventDefault: true
+      });
+      map.addControl(geocoder);
+
+      // show a popup when choose a place
+      var popup = new ol.Overlay.Popup({
+        panMapIfOutOfView: false
+      });
+      map.addOverlay(popup);
+
+      //Listen when a place or an address is chosen
+      geocoder.on('addresschosen', function (evt) {
+        window.setTimeout(function () {
+          popup.show(evt.coordinate, evt.address.formatted);
+        }, 1000);
+      });
+
+      // Manage click on the map to display/hide popup
+      map.on('click', function(e) {
+        var info = [];
+        map.forEachFeatureAtPixel(e.pixel, function (feature) {
+          info.push(/*feature.get('title') + '<br>' + */feature.get('text'));
+        });
+        if (info.length > 0) {
+          // debugger;
+          popup.show(e.coordinate, info.join(','));
+        } else {
+          popup.hide();
+        }
+      });
+
+
 
     </script>
 
