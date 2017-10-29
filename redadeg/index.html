@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- generalities -->
+    <title>OpenStreetMap e brezhoneg</title>
+    <meta charset=utf-8>
+    <meta name=description content="Ar gartenn nerzhoniezh e vrezhoneg penn da benn, graet gant OpenStreetMap">
+    <meta http-equiv="Content-language" content="br">
+
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    
+    
+    <!-- Javascript components -->
+      <!-- Openlayers -->
+      <script src="https://openlayers.org/en/v4.4.1/build/ol.js" type="text/javascript"></script>
+      <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+      <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+      <!-- layer switcher -->
+      <script src="http://rawgit.com/walkermatt/ol3-layerswitcher/master/src/ol3-layerswitcher.js"></script>
+      <!-- infos popup -->
+      <script src="https://unpkg.com/ol-popup@2.0.0"></script>
+
+
+    <!-- the linked styles -->
+      <!-- OpenLayers -->
+      <link rel="stylesheet" href="https://openlayers.org/en/v4.4.1/css/ol.css">
+      <!-- layer switcher -->
+      <link rel="stylesheet" type="text/css" href="http://rawgit.com/walkermatt/ol3-layerswitcher/master/src/ol3-layerswitcher.css">
+      <!-- infos popup -->
+      <link rel="stylesheet" href="https://unpkg.com/ol-popup@2.0.0/src/ol-popup.css" />
+
+    
+    <!-- the overrides styles, directly below -->
+    <style type="text/css">
+
+      /* for full page map */
+      html, body {
+        margin: 0;
+        height: 100%;
+
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .ol-zoom {
+        top: .5em;
+        left: .5em;
+        font-size: 1.5em;
+      }
+
+      .layer-switcher {
+          top: .5em;
+      }
+
+      .ol-control button{
+        background-color: rgba(40, 40, 40, 0.8) !important;
+      }
+
+      .ol-geocoder .ol-control, .ol-geocoder .ol-control button:hover {
+        background-color: rgba(40, 40, 40, 0) !important;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- the map -->
+    <div id="map" class="map"></div>
+
+    <script type="text/javascript">
+      
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // settings
+
+      // default zoom and center for startup
+      var zoom = 8;
+      var center = [-2.3, 48.1];
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  for the permalink url
+
+      if (window.location.hash !== '') {
+        // try to restore center, zoom-level and rotation from the URL
+        var hash = window.location.hash.replace('#map=', '');
+        var parts = hash.split('/');
+        if (parts.length === 3) {
+          zoom = parseInt(parts[0], 10);
+          center = [
+            parseFloat(parts[1]),
+            parseFloat(parts[2])
+          ];
+        }
+      }
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // the osm tiles services
+
+      // OSM BR
+      var osm_br_source = new ol.source.XYZ({
+        url: 'http://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png'
+      });
+      var layerOsmBr = new ol.layer.Tile({
+        title: 'OpenStreetMap BZH',
+        type: 'base',
+        visible: true,
+        source: osm_br_source
+      });
+
+      // OSM FR
+      var osm_fr_source = new ol.source.XYZ({
+        url: 'http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+      });
+      var layerOsmFr = new ol.layer.Tile({
+        title: 'OpenStreetMap FR',
+        type: 'base',
+        visible: false,
+        source: osm_fr_source
+      });
+
+
+      // vector layers
+
+      // redadeg : rapide from PostGIS 
+      var redadeg_pk = new ol.layer.Vector({
+        title: 'Redadeg pk',
+        visible: false,
+        source: new ol.source.Vector({
+          url: 'redadeg_pk.geojson',
+          format: new ol.format.GeoJSON()
+        }),
+        style: new ol.style.Style({
+          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 40],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: 'http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/images/marker-icon.png'
+          }))
+        })
+      });
+
+      var redadeg_trace = new ol.layer.Vector({
+        title: 'Redadeg trace',
+        visible: false,
+        source: new ol.source.Vector({
+          url: 'redadeg_trace.geojson',
+          format: new ol.format.GeoJSON()
+        })
+      });
+
+      // redadeg : GeoJSON in line
+      var redadeg_test_pk = new ol.layer.Vector({
+        title: 'Redadeg test pk',
+        visible: true,
+        source: new ol.source.Vector({
+          //url: 'http://app.ar-redadeg.bzh/provider.geojson?target=9',
+          url: 'provider.geojson',
+          format: new ol.format.GeoJSON()
+        }),
+        style: new ol.style.Style({
+          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 40],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: 'icons/icon.png'
+          }))
+        })
+      });
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // the map
+
+      var map = new ol.Map({
+        target: 'map',
+        
+        // layers are grouped for the layer switcher
+        layers: [
+            new ol.layer.Group({
+                'title': 'Foñs kartenn',
+                layers: [layerOsmFr, layerOsmBr]
+            }),
+            new ol.layer.Group({
+                title: 'Livadennoù',
+                layers: [redadeg_test_pk, redadeg_pk, redadeg_trace]
+            })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat(center),
+          zoom: zoom
+        }),
+        controls: ol.control.defaults({
+          // Set to display OSM attributions on the bottom right control
+          attributionOptions:  {
+            collapsed: false
+          }
+        }).extend([
+          new ol.control.ScaleLine() // Add scale line to the defaults controls
+        ])
+      });
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  for the permalink url
+
+      var shouldUpdate = true;
+      var view = map.getView();
+      
+      var updatePermalink = function() {
+        if (!shouldUpdate) {
+          // do not update the URL when the view was changed in the 'popstate' handler
+          shouldUpdate = true;
+          return;
+        }
+
+        var center = ol.proj.toLonLat(view.getCenter());
+        var hash = '#map=' +
+            view.getZoom() + '/' +
+            Math.round(center[0] * 100) / 100 + '/' +
+            Math.round(center[1] * 100) / 100;
+        var state = {
+          zoom: view.getZoom(),
+          center: view.getCenter()
+        };
+        window.history.pushState(state, 'map', hash);
+      };
+
+      // when stop movement on the map : update the url
+      map.on('moveend', updatePermalink);
+
+      // restore the view state when navigating through the history, see
+      // https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
+      window.addEventListener('popstate', function(event) {
+        if (event.state === null) {
+          return;
+        }
+        map.getView().setCenter(event.state.center);
+        map.getView().setZoom(event.state.zoom);
+        shouldUpdate = false;
+      });
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  for the layer switcher
+
+      var layerSwitcher = new ol.control.LayerSwitcher({
+          tipLabel: 'Légende' // Optional label for button
+      });
+      map.addControl(layerSwitcher);
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  popup on click on overlay layer
+     
+      var popup = new ol.Overlay.Popup({
+        panMapIfOutOfView: false
+      });
+      map.addOverlay(popup);
+
+      // Manage click on the map to display/hide popup
+      map.on('click', function(e) {
+        var info = [];
+        map.forEachFeatureAtPixel(e.pixel, function (feature) {
+          info.push(/*feature.get('title') + '<br>' + */feature.get('text'));
+        });
+        if (info.length > 0) {
+          // debugger;
+          popup.show(e.coordinate, info.join(','));
+        } else {
+          popup.hide();
+        }
+      });
+
+
+    </script>
+
+
+  </body>
+</html>
