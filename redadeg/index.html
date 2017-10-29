@@ -103,6 +103,75 @@
 
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  for icon styling from data
+
+      var defaultStyle = new ol.style.Style({
+        style: new ol.style.Style({
+          image: new ol.style.Icon(({
+            anchor: [0.5, 40],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: 'icons/icon.png'
+          }))
+        })
+      });
+      var Style1 = new ol.style.Style({
+        style: new ol.style.Style({
+          image: new ol.style.Icon(({
+            anchor: [0.5, 40],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: 'icons/frank.png'
+          }))
+        })
+      });
+      var Style2 = new ol.style.Style({
+        style: new ol.style.Style({
+          image: new ol.style.Icon(({
+            anchor: [0.5, 40],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: 'icons/miret.png'
+          }))
+        })
+      });
+
+
+      // cache styles for performance
+      var styleCache = {};
+
+      function styleFunction(feature, resolution) {
+        // get code from the data
+        var codeStyle = feature.get('kilometer_status');
+        console.log('codeStyle = ' + codeStyle);
+        console.log('resolution = ' + resolution);
+
+        //return [defaultStyle];
+
+
+        // return default style if no value
+        if (!codeStyle) {
+          console.log('-> defaultStyle');
+          return [defaultStyle];
+        }
+        if (codeStyle == 1) {
+          console.log('-> Style1');
+          return [Style1];
+        }
+        if (codeStyle == 2) {
+          console.log('-> Style2');
+          return [Style1];
+        }
+        else {
+          console.log('-> defaultStyle');
+          return [defaultStyle];
+        }
+
+      }
+
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // the osm tiles services
 
       // OSM BR
@@ -166,14 +235,15 @@
           url: 'provider.geojson',
           format: new ol.format.GeoJSON()
         }),
-        style: new ol.style.Style({
-          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        style: styleFunction
+        /*style: new ol.style.Style({
+          image: new ol.style.Icon(({
             anchor: [0.5, 40],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
             src: 'icons/icon.png'
           }))
-        })
+        })*/
       });
 
 
