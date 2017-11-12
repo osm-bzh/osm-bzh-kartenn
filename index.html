@@ -254,7 +254,12 @@
         }),
         controls: ol.control.defaults({
           attribution: false
-        }).extend([attribution]),
+        }).extend(
+          [
+            attribution, // Add attribution control
+            new ol.control.ScaleLine() // Add graphic scale line
+          ]
+        ),
         target: 'map'
       });
 
@@ -270,7 +275,7 @@
 
       window.addEventListener('resize', checkSize);
       checkSize();
-      
+
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       //  for the permalink url
