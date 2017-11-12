@@ -172,6 +172,7 @@
       // default zoom and center for startup
       var zoom = 8;
       var center = [-2.3, 48.1];
+      var maxZoom = 18;
 
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -244,7 +245,8 @@
         ],
         view: new ol.View({
           center: ol.proj.fromLonLat(center),
-          zoom: zoom
+          zoom: zoom,
+          maxZoom: maxZoom
         }),
         controls: ol.control.defaults({
           attribution: false
@@ -360,8 +362,6 @@
           popup.hide();
         }
       });
-
-
 
     </script>
 
