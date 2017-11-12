@@ -143,6 +143,10 @@
         background-color: rgba(40, 40, 40, 0) !important;
       }
 
+      .ol-attribution ul {
+        font-size: 0.9em;
+      }
+
     </style>
 
   </head>
@@ -197,30 +201,38 @@
       // the osm tiles services
 
       // OSM BR
-      var osm_br_source = new ol.source.XYZ({
-        url: 'http://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png'
-      });
       var layerOsmBr = new ol.layer.Tile({
         title: 'OpenStreetMap BZH',
         type: 'base',
         visible: true,
-        source: osm_br_source
+        source: new ol.source.XYZ({
+          url: 'http://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png',
+          attributions: [
+            '© <a href="http://www.openstreetmap.org/copyright" target="_blank">Les contributeurs d\'OpenStreetMap</a>'
+          ]
+        })
       });
 
       // OSM FR
-      var osm_fr_source = new ol.source.XYZ({
-        url: 'http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-      });
       var layerOsmFr = new ol.layer.Tile({
         title: 'OpenStreetMap FR',
         type: 'base',
         visible: false,
-        source: osm_fr_source
+        source: new ol.source.XYZ({
+          url: 'http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          attributions: [
+            '© <a href="http://www.openstreetmap.org/copyright" target="_blank">Les contributeurs d\'OpenStreetMap</a>'
+          ]
+        })
       });
 
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // the map
+
+      var attribution = new ol.control.Attribution({
+        collapsible: false
+      });
 
       var map = new ol.Map({
         target: 'map',
@@ -241,14 +253,28 @@
           zoom: zoom
         }),
         controls: ol.control.defaults({
-          // Set to display OSM attributions on the bottom right control
-          attributionOptions:  {
-            collapsed: false
-          }
-        }).extend([
-          new ol.control.ScaleLine() // Add scale line to the defaults controls
-        ])
+          attribution: false
+        }).extend(
+          [
+            attribution, // Add attribution control
+            new ol.control.ScaleLine() // Add graphic scale line
+          ]
+        ),
+        target: 'map'
       });
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  for collapsing the attribution control if the available width gets smaller then 600 px
+
+      function checkSize() {
+        var small = map.getSize()[0] < 600;
+        attribution.setCollapsible(small);
+        attribution.setCollapsed(small);
+      }
+
+      window.addEventListener('resize', checkSize);
+      checkSize();
 
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
