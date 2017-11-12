@@ -75,9 +75,43 @@
         font-weight: 600;
       }
 
-      #header .functions {
-        
+/*  Navigation  */
+#nav {
+  position: absolute;
+  margin: 0; padding: 0;    
+  height: 40px;
+  width: 900px; 
+  left: 0;  top: 35px;  
+  border-bottom: 1px solid #1A1A1A;
+}
+#nav ul {
+  float: left;
+  list-style: none;
+  width: 880px;   
+  height: 40px;
+  margin: 0 0 0 5px; padding: 0;  
+  display: inline;
+}
+#nav ul li {
+  display: inline;
+  margin: 0; padding: 0;
+}
+#nav ul li a {
+  float: left;
+  margin: 0;  padding: 0 8px;
+  font: bold 15px/35px 'Trebuchet MS', Helvetica, Arial, Geneva, sans-serif;
+  text-decoration: none;  
+  color: #5c9a12; 
+}
+#nav ul li a:hover, 
+#nav ul li a:active {
+  color: #eee;
+  background: none;
+  border: none;
+}padding: 0;
       }
+
+
 
       #header li ul {
         display: inline-block;
@@ -123,6 +157,12 @@
       <img class="logo" src="osm_bzh.png" alt="logo osm.bzh">
       <span class="slogan">OpenStreetMap e brezhoneg</span>
 
+      <div id="nav">
+        <ul>
+          <li><a href="#" target="_blank">Modifier</a></li>
+          <li><a href="#" target="_blank">À propos</a></li>
+        </ul>
+      </div>
 
     </div>
 
