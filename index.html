@@ -40,12 +40,56 @@
         margin: 0;
         height: 100%;
 
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Helvetica Neue',Arial,sans-serif;
         font-size: 12px;
       }
+
+
+      /* ----------------------------- */
+      /* for the header */
+
+      #header {
+        height: 55px;
+        width: 100%;
+        display: inline;
+
+        background-color: #fff;
+
+        font-size: 14px;
+        text-align: left;
+      }
+
+      #header img.logo {
+        width: 40px;
+        height: 40px;
+        margin-top: 5px;
+        margin-left: 5px;
+      }
+
+      #header .slogan {
+        position: fixed;
+        padding-top: 12px;
+        padding-left: 10px;
+
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      #header .functions {
+        
+      }
+
+      #header li ul {
+        display: inline-block;
+      }
+
+
+      /* ----------------------------- */
+      /* for the map */
+
       #map {
         position: absolute;
-        top: 0;
+        top: 55px;
         bottom: 0;
         width: 100%;
       }
@@ -73,6 +117,14 @@
   </head>
 
   <body>
+
+    <!-- the header -->
+    <div id="header">
+      <img class="logo" src="osm_bzh.png" alt="logo osm.bzh">
+      <span class="slogan">OpenStreetMap e brezhoneg</span>
+
+
+    </div>
 
     <!-- the map -->
     <div id="map" class="map"></div>
