@@ -58,14 +58,12 @@
         font-size: 14px;
         text-align: left;
       }
-
       #header img.logo {
         width: 40px;
         height: 40px;
         margin-top: 5px;
         margin-left: 5px;
       }
-
       #header .slogan {
         position: fixed;
         padding-top: 12px;
@@ -73,6 +71,12 @@
 
         font-size: 18px;
         font-weight: 600;
+      }
+      #header a:link, a:active {
+        text-decoration: none;
+      }
+      #header a:hover {
+        text-decoration: underline;
       }
 
       /*  Navigation  */
@@ -150,7 +154,7 @@
     <!-- the header -->
     <div id="header">
       <img class="logo" src="osm_bzh.png" alt="logo osm.bzh">
-      <span class="slogan">OpenStreetMap e brezhoneg</span>
+      <span class="slogan"><a href="http://www.openstreetmap.bzh/">OpenStreetMap e brezhoneg</a></span>
 
       <div id="nav">
         <ul>
