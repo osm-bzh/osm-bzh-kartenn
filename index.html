@@ -214,6 +214,19 @@
         })
       });
 
+      // OSM BR 2
+      var layerOsmBr2 = new ol.layer.Tile({
+        title: 'OpenStreetMap BR teol',
+        type: 'base',
+        visible: true,
+        source: new ol.source.XYZ({
+          url: 'https://teol.openstreetmap.bzh/br/{z}/{x}/{y}.png',
+          attributions: [
+            '© <a href="http://www.openstreetmap.org/copyright" target="_blank"> Kendaolerien OpenStreetMap</a>'
+          ]
+        })
+      });
+
       // OSM FR
       var layerOsmFr = new ol.layer.Tile({
         title: 'OpenStreetMap FR',
@@ -242,7 +255,7 @@
         layers: [
             new ol.layer.Group({
                 'title': 'Foñs kartenn',
-                layers: [layerOsmFr, layerOsmBr]
+                layers: [layerOsmFr, layerOsmBr, layerOsmBr2]
             }),
             new ol.layer.Group({
                 title: 'Livadennoù',
