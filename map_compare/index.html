@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Map Compare | OSM BZH</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="copyright" content="Copyright (c) 2012-2017 BBBike.org &amp; Geofabrik GmbH" />
+    <meta name="description" content="Map Compare shows you different maps from OpenStreetMap, Google, Bing, Mapquest, Esri, Nokia and others side by side. A service by BBBike.org" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/OpenLayers/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/mc.css" />
+    <link class="mobilecss" rel="stylesheet" type="text/css" href="css/mobile.css" />
+</head>
+
+<body>
+<div id="tools-top">
+    <div id="tools-right">
+	<form action="" id="head-1">
+	    <span class="switch-1 cmtm" title="display a map over all other maps">Overlay: </span>
+	    <select id="sw-1" class="switch" name="sw-1"><option>none</option></select>
+            <select id="sw-2" class="switch" name="sw-2" style="display:none"
+		title="set overlay map opacity in percent: 0..100%"><option value="-1">--</option></select>
+	</form>
+
+	<span id="slider_box" style="display:none" title="set overlay map opacity in percent: 0..100%"></span>
+    </div>
+</div>
+
+<div id="tools-titlebar">
+    <span id="tools-pageload"><img src="img/indicator.gif" alt="" title="Loading JavaScript libraries" /> Loading&nbsp;JS </span>
+    <span id="tools-geolocation"><img src="img/indicator.gif" alt="" title="geolocation" /> Geo&nbsp;Location</span>
+
+    <div id="tools-help">
+	<span><a id="tools-searchtrigger" title="Search for a city or street" class="tools-inputtrigger" href="search.html">
+	    <span>Search</span> <img class="small-icon" src="img/search.gif" alt="Search" width="20" height="20"/>
+	</a></span>
+	<span id="tools-locate-me"><img id="locateme-indicator" src="img/indicator.gif" width="16" height="16" alt="loading" /></span>
+	<a title="where am I?" href="javascript:locateMe()"><img class="small-icon" src="img/location-icon.png" width="25" height="23" alt="loading" /></a>
+        <span title="Available keyboard shortcuts: for navigation: arrow left, arrow right, arrow up, arrow down, h/j/k/l; for zoom: -/=/+/0; to toggle fullscreen: f; jump to geolocation: g; search address: s; select number of maps: 1/2/3/4/6/8">
+	<a id="tools-helptrigger" class="tools-helptrigger" href="help.html"><img class="small-icon" src="img/help.gif" alt="" width="22" height="22"/><span>Help</span></a>
+        </span>
+    </div>
+    <h1 id="tools-title"><a class="home" href="index.html">Map Compare</a></h1>
+    
+    <noscript>
+    <span id="noscript">
+	    Please enable JavaScript in your browser. Thanks!
+    </span>
+    </noscript>
+</div>
+
+<div class="jqmWindow" id="tools-helpwin">Please wait... <img src="img/indicator.gif" alt="loading" /></div>
+<div class="jqmWindow" id="tools-inputwin"></div>
+
+<div id="table">
+    <table width="100%">
+	<!-- first row -->
+	<tr id="tr0">
+	    <td class="maps" id="column0">
+		<form action="" class="switch" id="head0"><div>
+		    Choose map type:
+		    <select id="sw0" name="sw0"><option>none</option></select>
+		</div></form>
+		<div class="map" id="map0"></div>
+	    </td>
+	    <td class="maps" id="column1">
+		<form action="" class="switch" id="head1"><div>
+		    Choose map type:
+		    <select id="sw1" name="sw1"><option>none</option></select>
+		</div></form>
+		<div class="map" id="map1"></div>
+	    </td>
+	</tr>
+
+	<!-- second up to 5th row, depending on map count -->
+	<tr id="tr1"><td></td></tr>
+	<tr id="tr2"><td></td></tr>
+	<tr id="tr3"><td></td></tr>
+	<tr id="tr4"><td></td></tr>
+    </table>
+</div>
+
+<div id="bottom">
+    <span id="debug"></span>
+    <div id="map-decoration">
+	<span id="customMousePosition"></span>
+	<span id="customZoomLevel">zoom=</span>
+	<span id="NumberOfMaps"></span>
+	<span id="customPermalink">
+	    <a style="display:none" href="" id="permalink" title="set permanent link">permalink</a>
+	    <a id="tools-sharetrigger" title="share link" class="tools-inputtrigger" href="share.html">share</a>
+	</span>
+
+    </div>
+</div>
+
+<div id="tools-copyright">
+    <span id="social">
+	<a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="img/social/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
+	<a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="img/social/rss-icon.png" alt="" /></a>
+	&nbsp;
+    </span>
+    <span>
+	&copy; 2017 <a href="http://bbbike.org/">BBBike<span class="long_footer">.org</span></a> &amp; <a href="https://www.geofabrik.de/">Geofabrik<span class="long_footer"> GmbH</span></a>
+	- <span class="long_footer">map data</span> (&copy;) <a href="https://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> <span class="long_footer">contributors</span>
+	- <a class="footer-link" target="_blank" href="http://extract.bbbike.org/" id="extractlink" title="Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format">extracts</a>
+	<span class="long_footer">- <a class="footer-link tools-helptrigger" href="help.html">help</a></span>
+	- <a class="footer-link" target="_new" href="https://www.geofabrik.de/geofabrik/contact.html">contact</a>
+	- <a class="footer-link" href="console.html" title="set preferences with Map Compare admin console">console</a>
+	- <a class="footer-link" href="#" onclick="toggleFullScreen();" id="fullscreen" title="toggle fullscreen mode">fullscreen</a>
+    </span>
+</div>
+
+<!-- fetch JavaScript libs at the end of the page -->
+<!-- jquery at all -->
+<script type="text/javascript" src="js/jquery/jquery-1.8.3.min.js"></script> 
+<script type="text/javascript" src="js/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.iecors.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.9.1.custom.min.js"></script>
+<script type="text/javascript" src="js/jqModal/jqModal-1.1.0.js"></script> 
+
+<!-- OpenLayers -->
+<script type="text/javascript" src="js/OpenLayers/2.12/OpenLayers.min.js"></script>
+<script type="text/javascript" src="js/OpenLayers/2.12/OpenStreetMap.js"></script>
+<script type="text/javascript" src="js/OpenLayers/2.12/Here.js"></script>
+<script type="text/javascript" src="js/OpenLayers/2.12/Baidu.js"></script>
+
+<!-- XXX: Google? -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.23&language=en&libraries=weather,panoramio"></script>
+
+<!-- Map Compare libs -->
+<script type="text/javascript" src="js/mc.js?version=1483298692"></script>
+
+<!-- local config -->
+<script type="text/javascript">
+    mc.debug = 1;
+</script>
+
+</body>
+</html>
+
+<!-- Localized -->

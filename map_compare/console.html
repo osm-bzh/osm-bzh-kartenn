@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Map Compare admin console</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="copyright" content="Copyright (c) 2012-2017 BBBike.org" />
+    <meta name="description" content="The Map Compare admin console enable you to configure Map Compare and store your preferences in a cookie permamently." />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/OpenLayers/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/mc.css" />
+</head>
+<body>
+    
+<noscript>
+    <span id="noscript">
+    Please enable JavaScript in your browser. Thanks!
+    </span>
+</noscript>
+
+<!-- most sections are configurable in js/mc.js -->
+
+<div id="tools-top">
+    <div id="tools-right" class="console"></div>
+</div>
+
+<div id="tools-titlebar">
+    <div id="tools-help" class="console">
+	<a class="tools-helptrigger" href="help-console.html"><img src="img/help.gif" title="help" alt="" width="22" height="22"/> Help</a>
+    </div>
+    <h1 id='tools-title' title="configure Map Compare and store your preferences permamently in a cookie"><a class="home" href="index.html">Map Compare Admin Console</a></h1>
+</div>
+
+<div class="jqmWindow" id="tools-helpwin">Please wait... <img src="img/indicator.gif" alt="loading" /></div>
+
+<div id="console">
+    <div id="tools-console"></div>
+    
+    <div id="pref_numberOfMaps">
+	<p/>
+	<form action="">
+	    You can configure the default number of maps (1 .. N):
+	    <select id="consoleNumberOfMaps"><option/></select>
+	    <input type="submit" name="pref_numberOfMaps" value="save" onclick="consoleStoreCookieNumberOfMaps();" />
+	</form>
+	<p/>
+    </div>
+    
+    <div id="pref_centerOfMaps">
+	<form action="" id="consoleMapCenter">
+	You can configure the default center of maps (lng,lat,zoom), e.g. <span class="help">13.38885,52.51703
+	or as in OpenStreetMap <span class="help">#map=17/52.58522/13.36238</span>
+	or as in Google Maps <span class="help">@52.5062881,13.4009077,13z</span>
+	or cut &amp; paste image URL http://a.tile.bbbike.org/osm/bbbike-smoothness/15/17602/10746.png<br/></span>
+	    <input type="text" size="50" name="center" id="center"/>
+	    <input type="submit" name="pref_center" value="save" onclick="consoleStoreMapCenter();" />
+	</form>
+    </div>
+    
+    <div id="pref_tileserver">
+	<p/>
+        You can configure an OpenStreetMap tile server, e.g.:
+       	<span class="help">
+	Name=Smoothness, 
+	URL=http://a.tile.bbbike.org/osm/bbbike-smoothness/${z}/${x}/${y}.png<br/> or
+	URL=http://{switch:a,b,c}.tile.bbbike.org/osm/bbbike-smoothness/${z}/${x}/${y}.png
+ 	or cut &amp; paste image
+       	URL=http://a.tile.bbbike.org/osm/bbbike-smoothness/15/17602/10746.png or
+	URL=http://bingcoverage.org/dates.php?z=11&amp;x=1090&amp;y=672<br/>
+       	If isBaseLayer is set to "no", the map will be used as on overlay map.
+	</span>
+    
+       <form action="">
+	<table id="table_tileserver" width="100%" border="1">
+	<tr id="tr_tileserver">
+	    <td width="5%">No.</td>
+	    <td width="20%">Name</td>
+	    <td width="70%">URL</td>
+	    <td width="5%">isBaseLayer</td>
+	</tr>
+	</table>
+	<input type="submit" name="pref_tileserver" value="save" onclick="consoleStoreTileServer();" />
+	</form>
+    </div>
+    
+    <div id="pref_orderOfMaps">
+	<p/>
+	You can configure the order of maps:
+	<form action="" id="consoleOrderOfMaps">
+	    <input type="submit" name="order" value="save" onclick="consoleStoreTileServerOrder();" />
+	</form>
+    </div>
+    
+    <div>
+        <p/>
+	<form action="">
+	  Reset all values:
+	  <input type="submit" name="reset" value="reset" onclick="consoleDeleteCookies();" />
+	</form>
+    </div>
+    
+    <div>
+	<hr/>
+	<p class="help">
+	The Map Compare admin console is for experts only. Use it on your on own risk!!!
+	All values will be stored in a persistent cookie. If you delete all your cookies in the browser, all
+	your Map Compare preferences will be lost.
+	For more information about tile servers, please read
+	<a href="https://wiki.openstreetmap.org/wiki/TMS">https://wiki.openstreetmap.org/wiki/TMS</a>
+	</p>
+	<h3>Go back to <a href="index.html">Map Compare</a></h3>
+    </div>
+</div>
+
+<div id="bottom_console">
+  <span id="debug"></span>
+</div>
+
+<div id="tools-copyright" style="position:relative"> <!-- scrollbar copyright -->
+    &copy; 2017 
+    <a href="http://bbbike.org/">BBBike.org</a>
+    &amp;
+    <a href="https://www.geofabrik.de/">Geofabrik GmbH</a> 
+    - map data (&copy;) <a href="https://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+    - <a href="https://www.geofabrik.de/geofabrik/contact.html">contact</a>
+    - <a class="tools-helptrigger" href="help-console.html">help</a>
+</div>
+
+<script type="text/javascript" src="js/jquery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.9.1.custom.min.js"></script>
+<script type="text/javascript" src="js/jqModal/jqModal-2009.03.01-r14.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/mc.js"></script>
+
+<script type="text/javascript">
+    mc.console = true;
+</script>
+
+</body>
+</html>
+
+
+<!-- Localized -->
