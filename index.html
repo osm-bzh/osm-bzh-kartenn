@@ -263,29 +263,20 @@
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // additional vector layers
 
-      var normalStyle = new ol.style.Style({
-            image: new ol.style.Circle({
-            radius: 10,
-            fill: new ol.style.Fill({color: 'red'}),
-            stroke: new ol.style.Stroke({color: 'black', width: 1})
-          })/*,
-              stroke: new ol.style.Stroke({
-                  color: 'rgba(20,130,150,0.8)',
-                  width: 1
-              })
-          })*/
-      });
-      var selectedStyle = new ol.style.Style({
+      var RedadegPKnormalStyle = new ol.style.Style({
           image: new ol.style.Circle({
-              radius: 40,
-              fill: new ol.style.Fill({
-                  color: 'rgba(150,150,200,0.6)'
-              })/*,
-              stroke: new ol.style.Stroke({
-                  color: 'rgba(20,30,100,0.8)',
-                  width: 3
-              })*/
+          radius: 10,
+          fill: new ol.style.Fill({color: 'red'}),
+          stroke: new ol.style.Stroke({color: 'black', width: 1})
+        })
+      });
+      var RedadegPKselectedStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 40,
+          fill: new ol.style.Fill({
+              color: 'rgba(150,150,200,0.6)'
           })
+        })
       });
 
       // redadeg : les PK
@@ -296,14 +287,7 @@
           url: 'redadeg/redadeg_pk.geojson',
           format: new ol.format.GeoJSON()
         }),
-        style: normalStyle
-        /*style: new ol.style.Style({
-          image: new ol.style.Circle({
-          radius: 10,
-          fill: new ol.style.Fill({color: 'red'}),
-          stroke: new ol.style.Stroke({color: 'black', width: 1})
-          })
-        })*/
+        style: RedadegPKnormalStyle
       });
 
       // redadeg : le tracé
@@ -465,8 +449,7 @@
       });
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      //  for the styles of vector layers
-      
+      //  for the styles of Redadeg vector layers
 
       var selectedTextStyleFunction = function(name) {
           console.log(name);
@@ -490,7 +473,7 @@
          url: 'redadeg/redadeg_pk.geojson',
          format: new ol.format.GeoJSON()
        }),
-       style: normalStyle
+       style: RedadegPKselectedStyle
      });
      //map.addLayer(vectorPoints);
 
@@ -510,7 +493,7 @@
         unselectPreviousFeatures();                
         map.forEachFeatureAtPixel(event.pixel, function(feature) {
             feature.setStyle([
-                selectedStyle, 
+                RedadegPKselectedStyle, 
                 selectedTextStyleFunction("KM " + feature.get('km') + "\n" + feature.get('jour') + "\n" + feature.get('heure'))
             ]);
             selectedFeatures.push(feature);
