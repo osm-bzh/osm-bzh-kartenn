@@ -18,7 +18,7 @@
       <!-- layer switcher -->
       <script src="https://rawgit.com/walkermatt/ol3-layerswitcher/master/src/ol3-layerswitcher.js"></script>
       <!-- geocoder for search -->
-      <script src="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/ol3-geocoder@2.5.0/build/ol3-geocoder.min.js"></script>
       <script src="https://unpkg.com/ol-popup@2.0.0"></script>
 
 
@@ -101,7 +101,7 @@
         float: left;
         list-style: none;
         margin: 0 0 0 5px;
-        padding: 0;  
+        padding: 0;
         display: inline;
       }
       #nav ul li {
@@ -113,9 +113,9 @@
         margin: 0;
         padding: 0 8px;
         text-decoration: none;
-        color: #a5a3a3; 
+        color: #a5a3a3;
       }
-      #nav ul li a:hover, 
+      #nav ul li a:hover,
       #nav ul li a:active {
         color: #333;
         background: none;
@@ -190,7 +190,7 @@
     <div id="map" class="map"></div>
 
     <script type="text/javascript">
-      
+
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // settings
 
@@ -261,6 +261,43 @@
 
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // additional vector layers
+
+      // redadeg : les PK
+      var redadeg_pk = new ol.layer.Vector({
+        title: 'Redadeg pk',
+        visible: true,
+        source: new ol.source.Vector({
+          url: 'redadeg/redadeg_pk.geojson',
+          format: new ol.format.GeoJSON()
+        })/*,
+        style: new ol.style.Style({
+          image: new ol.style.Circle({
+          radius: 10,
+          fill: new ol.style.Fill({color: 'red'}),
+          stroke: new ol.style.Stroke({color: 'black', width: 1})
+          })
+        })*/
+      });
+
+      // redadeg : le tracé
+      var redadeg_trace = new ol.layer.Vector({
+        title: 'Redadeg tracé',
+        visible: true,
+        source: new ol.source.Vector({
+          url: 'redadeg/redadeg_trace.geojson',
+          format: new ol.format.GeoJSON()
+        }),
+        style: new ol.style.Style({
+          stroke: new ol.style.Stroke({
+            color: [5,5,5,0.75],
+            width: 3
+          })
+        })
+      });
+
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // the map
 
       var attribution = new ol.control.Attribution({
@@ -278,7 +315,7 @@
             }),
             new ol.layer.Group({
                 title: 'Livadennoù',
-                layers: []
+                layers: [redadeg_trace, redadeg_pk]
             })
         ],
         view: new ol.View({
@@ -400,6 +437,83 @@
           popup.hide();
         }
       });
+
+      //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      //  for the styles of vector layers
+      
+      var normalStyle = new ol.style.Style({
+          image: new ol.style.Circle({
+              radius: 4,
+              fill: new ol.style.Fill({
+                  color: 'rgba(20,150,200,0.3)'
+              }),
+              stroke: new ol.style.Stroke({
+                  color: 'rgba(20,130,150,0.8)',
+                  width: 1
+              })
+          })
+      });
+      var selectedStyle = new ol.style.Style({
+          image: new ol.style.Circle({
+              radius: 40,
+              fill: new ol.style.Fill({
+                  color: 'rgba(150,150,200,0.6)'
+              }),
+              stroke: new ol.style.Stroke({
+                  color: 'rgba(20,30,100,0.8)',
+                  width: 3
+              })
+          })
+      });
+      var selectedTextStyleFunction = function(name) {
+          console.log(name);
+          return new ol.style.Style({
+              text: new ol.style.Text({
+                  font: '14px helvetica,sans-serif',
+                  text: name,
+                  fill: new ol.style.Fill({
+                      color: '#000'
+                  }),
+                  stroke: new ol.style.Stroke({
+                      color: '#fff',
+                      width: 2
+                  })
+              })
+          });
+      };
+
+     var vectorPoints = new ol.layer.Vector({
+       source: new ol.source.Vector({
+         url: 'redadeg/redadeg_pk.geojson',
+         format: new ol.format.GeoJSON()
+       }),
+       style: normalStyle
+     });
+     map.addLayer(vectorPoints);
+
+    var selectedFeatures = [];
+
+    // Unselect previous selected features
+    function unselectPreviousFeatures() {
+        var i;
+        for(i=0; i< selectedFeatures.length; i++) {
+            selectedFeatures[i].setStyle(null);
+        }
+        selectedFeatures = [];
+    }
+
+    // Handle pointer
+    map.on('pointermove', function(event) {
+        unselectPreviousFeatures();                
+        map.forEachFeatureAtPixel(event.pixel, function(feature) {
+            feature.setStyle([
+                selectedStyle, 
+                selectedTextStyleFunction(feature.get('km') + "\n" + feature.get('jour') + "\n" + feature.get('heure'))
+            ]);
+            selectedFeatures.push(feature);
+        });
+    });
+
 
     </script>
 
