@@ -263,6 +263,31 @@
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // additional vector layers
 
+      var normalStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+            radius: 10,
+            fill: new ol.style.Fill({color: 'red'}),
+            stroke: new ol.style.Stroke({color: 'black', width: 1})
+          })/*,
+              stroke: new ol.style.Stroke({
+                  color: 'rgba(20,130,150,0.8)',
+                  width: 1
+              })
+          })*/
+      });
+      var selectedStyle = new ol.style.Style({
+          image: new ol.style.Circle({
+              radius: 40,
+              fill: new ol.style.Fill({
+                  color: 'rgba(150,150,200,0.6)'
+              })/*,
+              stroke: new ol.style.Stroke({
+                  color: 'rgba(20,30,100,0.8)',
+                  width: 3
+              })*/
+          })
+      });
+
       // redadeg : les PK
       var redadeg_pk = new ol.layer.Vector({
         title: 'Redadeg pk',
@@ -270,8 +295,9 @@
         source: new ol.source.Vector({
           url: 'redadeg/redadeg_pk.geojson',
           format: new ol.format.GeoJSON()
-        })/*,
-        style: new ol.style.Style({
+        }),
+        style: normalStyle
+        /*style: new ol.style.Style({
           image: new ol.style.Circle({
           radius: 10,
           fill: new ol.style.Fill({color: 'red'}),
@@ -441,35 +467,12 @@
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       //  for the styles of vector layers
       
-      var normalStyle = new ol.style.Style({
-          image: new ol.style.Circle({
-              radius: 4,
-              fill: new ol.style.Fill({
-                  color: 'rgba(20,150,200,0.3)'
-              }),
-              stroke: new ol.style.Stroke({
-                  color: 'rgba(20,130,150,0.8)',
-                  width: 1
-              })
-          })
-      });
-      var selectedStyle = new ol.style.Style({
-          image: new ol.style.Circle({
-              radius: 40,
-              fill: new ol.style.Fill({
-                  color: 'rgba(150,150,200,0.6)'
-              }),
-              stroke: new ol.style.Stroke({
-                  color: 'rgba(20,30,100,0.8)',
-                  width: 3
-              })
-          })
-      });
+
       var selectedTextStyleFunction = function(name) {
           console.log(name);
           return new ol.style.Style({
               text: new ol.style.Text({
-                  font: '14px helvetica,sans-serif',
+                  font: '12px helvetica,sans-serif',
                   text: name,
                   fill: new ol.style.Fill({
                       color: '#000'
@@ -489,7 +492,7 @@
        }),
        style: normalStyle
      });
-     map.addLayer(vectorPoints);
+     //map.addLayer(vectorPoints);
 
     var selectedFeatures = [];
 
@@ -508,7 +511,7 @@
         map.forEachFeatureAtPixel(event.pixel, function(feature) {
             feature.setStyle([
                 selectedStyle, 
-                selectedTextStyleFunction(feature.get('km') + "\n" + feature.get('jour') + "\n" + feature.get('heure'))
+                selectedTextStyleFunction("KM " + feature.get('km') + "\n" + feature.get('jour') + "\n" + feature.get('heure'))
             ]);
             selectedFeatures.push(feature);
         });
