@@ -197,6 +197,7 @@
       // default zoom and center for startup
       var zoom = 8;
       var center = [-2.3, 48.1];
+      var minZoom = 5;
       var maxZoom = 18;
 
 
@@ -281,7 +282,7 @@
 
       // redadeg : les PK
       var redadeg_pk = new ol.layer.Vector({
-        title: 'Redadeg pk',
+        title: 'Redadeg km',
         visible: true,
         source: new ol.source.Vector({
           url: 'redadeg/redadeg_pk.geojson',
@@ -292,7 +293,7 @@
 
       // redadeg : le tracé
       var redadeg_trace = new ol.layer.Vector({
-        title: 'Redadeg tracé',
+        title: 'Redadeg hent',
         visible: true,
         source: new ol.source.Vector({
           url: 'redadeg/redadeg_trace.geojson',
@@ -331,6 +332,7 @@
         view: new ol.View({
           center: ol.proj.fromLonLat(center),
           zoom: zoom,
+          minZoom: minZoom,
           maxZoom: maxZoom
         }),
         controls: ol.control.defaults({
@@ -452,7 +454,7 @@
       //  for the styles of Redadeg vector layers
 
       var selectedTextStyleFunction = function(name) {
-          console.log(name);
+          console.log(km);
           return new ol.style.Style({
               text: new ol.style.Text({
                   font: '12px helvetica,sans-serif',
@@ -464,7 +466,8 @@
                       color: '#fff',
                       width: 2
                   })
-              })
+              }),
+              text: map.getView().getZoom() > 12 ? this.get('km') : ''
           });
       };
 
