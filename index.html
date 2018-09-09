@@ -234,22 +234,22 @@
         })
       });
 
-      // OSM BR 2
-      var layerOsmBr2 = new ol.layer.Tile({
-        title: 'OpenStreetMap BR teol',
+      // OSM FR
+      var layerOsmFr = new ol.layer.Tile({
+        title: 'OpenStreetMap FR',
         type: 'base',
         visible: false,
         source: new ol.source.XYZ({
-          url: 'https://teol.openstreetmap.bzh/br/{z}/{x}/{y}.png',
+          url: 'https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
           attributions: [
-            '© <a href="http://www.openstreetmap.org/copyright" target="_blank"> Kendaolerien OpenStreetMap</a>'
+            '© <a href="http://www.openstreetmap.org/copyright" target="_blank">Les contributeurs d\'OpenStreetMap</a>'
           ]
         })
       });
 
-      // OSM FR
-      var layerOsmFr = new ol.layer.Tile({
-        title: 'OpenStreetMap FR',
+      // OSM ORG
+      var layerOsmOrg = new ol.layer.Tile({
+        title: 'OpenStreetMap ORG',
         type: 'base',
         visible: false,
         source: new ol.source.XYZ({
@@ -279,7 +279,7 @@
         layers: [
             new ol.layer.Group({
                 'title': 'Foñs kartenn',
-                layers: [layerOsmFr, layerOsmBr2, layerOsmBr]
+                layers: [layerOsmOrg, layerOsmFr, layerOsmBr]
             }),
             new ol.layer.Group({
                 title: 'Livadennoù',
@@ -411,7 +411,7 @@
       //  for the styles of Redadeg vector layers
 
       var selectedTextStyleFunction = function(name) {
-          console.log(km);
+          //console.log(km);
           return new ol.style.Style({
               text: new ol.style.Text({
                   font: '12px helvetica,sans-serif',
