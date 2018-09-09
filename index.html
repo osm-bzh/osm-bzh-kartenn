@@ -264,49 +264,6 @@
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // additional vector layers
 
-      var RedadegPKnormalStyle = new ol.style.Style({
-          image: new ol.style.Circle({
-          radius: 6,
-          fill: new ol.style.Fill({color: 'red'}),
-          stroke: new ol.style.Stroke({color: 'black', width: 1})
-        })
-      });
-      var RedadegPKselectedStyle = new ol.style.Style({
-        image: new ol.style.Circle({
-          radius: 40,
-          fill: new ol.style.Fill({
-              color: 'rgba(150,150,200,0.6)'
-          })
-        })
-      });
-
-      // redadeg : les PK
-      var redadeg_pk = new ol.layer.Vector({
-        title: 'Redadeg km',
-        visible: true,
-        source: new ol.source.Vector({
-          url: 'redadeg/redadeg_pk.geojson',
-          format: new ol.format.GeoJSON()
-        }),
-        style: RedadegPKnormalStyle
-      });
-
-      // redadeg : le tracé
-      var redadeg_trace = new ol.layer.Vector({
-        title: 'Redadeg hent',
-        visible: true,
-        source: new ol.source.Vector({
-          url: 'redadeg/redadeg_trace.geojson',
-          format: new ol.format.GeoJSON()
-        }),
-        style: new ol.style.Style({
-          stroke: new ol.style.Stroke({
-            color: [5,5,5,0.75],
-            width: 3
-          })
-        })
-      });
-
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // the map
@@ -326,7 +283,7 @@
             }),
             new ol.layer.Group({
                 title: 'Livadennoù',
-                layers: [redadeg_trace, redadeg_pk]
+                layers: []
             })
         ],
         view: new ol.View({
