@@ -40,7 +40,7 @@ var mc = {
     row5: 32,
 
     // pre-selected maps in columns
-    mt: ['osmbr', 'osmbrteol', 'osmbrlocal'],
+    mt: ['mapnik', 'osmbr', 'osmfr'],
     // 'soviet-military'],
     // preferences expire after N days
     preferences_expire: 180,
@@ -1318,7 +1318,7 @@ function initLayerTypes() {
         return new OpenLayers.Layer.OSM('OSM FR hot', switch_url('http://{switch:a,b,c}.tile.openstreetmap.fr/openriverboatmap/${z}/${x}/${y}.png'), layer_options);
     }),
     new LayerType('osmbr', 'OSM BR', function () {
-        return new OpenLayers.Layer.OSM('OSM BR', switch_url('http://tile.openstreetmap.bzh/br/${z}/${x}/${y}.png'), layer_options);
+        return new OpenLayers.Layer.OSM('OSM BR', switch_url('https://tile.openstreetmap.bzh/br/${z}/${x}/${y}.png'), layer_options);
     }),
     new LayerType('osmbrteol', 'OSM BR teol', function () {
         return new OpenLayers.Layer.OSM('OSM BR teol', switch_url('https://teol.openstreetmap.bzh/br/${z}/${x}/${y}.png'), layer_options);
