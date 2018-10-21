@@ -234,6 +234,19 @@
         })
       });
 
+      // OSM BR control
+      var layerOsmBrControl = new ol.layer.Tile({
+        title: 'BR control',
+        type: 'layer',
+        visible: false,
+        source: new ol.source.XYZ({
+          url: 'https://tile.openstreetmap.bzh/br_control/{z}/{x}/{y}.png',
+          attributions: [
+            '© <a href="http://www.openstreetmap.org/copyright" target="_blank"> Kendaolerien OpenStreetMap</a>'
+          ]
+        })
+      });
+
       // OSM FR
       var layerOsmFr = new ol.layer.Tile({
         title: 'OpenStreetMap FR',
@@ -283,7 +296,7 @@
             }),
             new ol.layer.Group({
                 title: 'Livadennoù',
-                layers: []
+                layers: [layerOsmBrControl]
             })
         ],
         view: new ol.View({
@@ -427,15 +440,6 @@
               text: map.getView().getZoom() > 12 ? this.get('km') : ''
           });
       };
-
-     var vectorPoints = new ol.layer.Vector({
-       source: new ol.source.Vector({
-         url: 'redadeg/redadeg_pk.geojson',
-         format: new ol.format.GeoJSON()
-       }),
-       style: RedadegPKselectedStyle
-     });
-     //map.addLayer(vectorPoints);
 
     var selectedFeatures = [];
 
