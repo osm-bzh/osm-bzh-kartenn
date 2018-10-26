@@ -3,12 +3,11 @@
   <head>
     <meta charset=utf-8>
     <title>Canvas Tiles</title>
-    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
-    <script src="https://openlayers.org/en/v3.20.0/build/ol.js"></script>
+
+    <script src="ol/v4.4.1/ol.js"></script>
     
     <!-- style -->
-    <link rel="stylesheet" href="https://openlayers.org/en/v4.4.1/css/ol.css">
+    <link rel="stylesheet" href="ol/v4.4.1/ol.css">
 
     <style type="text/css">
 
@@ -37,19 +36,19 @@
       var osmSource = new ol.source.OSM();
 
       // OSM BR
-      var osm_br_source = new ol.source.XYZ({
-        url: 'http://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png'
+      var osm_br = new ol.source.XYZ({
+        url: 'https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png'
       });
 
       var map = new ol.Map({
         layers: [
           new ol.layer.Tile({
-            source: osm_br_source
+            source: osm_br
           }),
           new ol.layer.Tile({
             source: new ol.source.TileDebug({
               projection: 'EPSG:3857',
-              tileGrid: osm_br_source.getTileGrid()
+              tileGrid: osm_br.getTileGrid()
             })
           })
         ],
