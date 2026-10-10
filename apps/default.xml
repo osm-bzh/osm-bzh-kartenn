@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <application title="Kartenn OpenStreetMap e brezhoneg" logo="osm_bzh.png" help="mviewer_help.html" measuretools="true" mapprint="true" exportpng="true" mouseposition="true"/>
+    <mapoptions maxzoom="18" projection="EPSG:3857" center="-322826,6140192" zoom="8" projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
+
+    <baselayers style="default">
+        <baselayer type="OSM" id="osmbr" thumbgallery="img/basemap/osm.png" label="OpenStreetMap e brezhoneg" title="OpenStreetMap e brezhoneg"
+            url="https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png" maxzoom="18" visible="true"
+            attribution="Kartenn &lt;a href='https://openstreetmap.bzh/' target='_blank'>OpenStreetMap Breizh&lt;/a>. Roadennoù : kenlabourerien &lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap&lt;/a> (ODbL)" />
+    </baselayers>
+    <proxy url=""/>
+    <searchparameters bbox="false" localities="true" features="false" />
+    <themes/>
+</config>
