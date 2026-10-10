@@ -25,7 +25,7 @@
     <proxy url=""/>
     <searchparameters bbox="false" localities="true" features="false" searchmaxzoomlevel="18" />
     <olscompletion url="https://nominatim.openstreetmap.org/search?format=geojson&amp;accept-language=br" type="search"
-        attribution="La recherche de lieux est un service de &lt;a href='https://nominatim.org/' target='_blank'>Nominatim&lt;/a> © les contributeurs d'&lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap&lt;/a>"/>
+        attribution="Ar c'hlask lec'hioù a zo ur servij eus Nominatim"/>
         <themes>
         <theme name="Kartenn" id="kartenn" collapsed="false" icon="ri-map-2-line">
             <layer id="klokter" name="Klokter ar gartenn" type="customlayer" visible="false" queryable="false" opacity="1"
