@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <application title="Kartenn OpenStreetMap e brezhoneg" lang="br" logo="osm_bzh.png" help="mviewer_help.html" showhelp="true" measuretools="true" mapprint="true" exportpng="true" mouseposition="true"/>
+    <mapoptions maxzoom="18" projection="EPSG:3857" center="-322826,6140192" zoom="8" projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
+
+    <baselayers style="gallery">
+        <baselayer type="OSM" id="osmbr" thumbgallery="img/basemap/osm_br.png" label="OpenStreetMap e brezhoneg" title="OpenStreetMap e brezhoneg"
+            url="https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png" maxzoom="18" visible="true"
+            attribution="Kartenn &lt;a href='https://openstreetmap.bzh/' target='_blank'>OpenStreetMap Breizh&lt;/a>. Roadennoù : kenlabourerien &lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap&lt;/a> (ODbL)" />
+        <baselayer type="OSM" id="osmfr" thumbgallery="img/basemap/osm_fr.png" label="OpenStreetMap FR" title="OpenStreetMap en français"
+            url="https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png" maxzoom="20" visible="false"
+            attribution="&lt;a href='https://www.openstreetmap.fr/' target='_blank'>OpenStreetMap France&lt;/a>. Données : &lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>© les contributeurs d'OpenStreetMap&lt;/a> (ODbL)" />
+        <baselayer type="OSM" id="osmstd" thumbgallery="img/basemap/osm_org.png" label="OpenStreetMap standard" title="OpenStreetMap"
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" maxzoom="19" visible="false"
+            attribution="&lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>© les contributeurs d'OpenStreetMap&lt;/a> (ODbL)" />
+        <baselayer type="WMTS" id="planign" thumbgallery="img/basemap/plan_ign.png" label="Plan IGN" title="Plan IGN"
+            url="https://data.geopf.fr/wmts" layers="GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" format="image/png" visible="false" fromcapacity="false"
+            style="normal" matrixset="PM" maxzoom="19"
+            attribution="&lt;a href='https://geoservices.ign.fr/services-geoplateforme-diffusion' target='_blank'>© IGN - Géoplateforme&lt;/a>" />
+        <baselayer type="WMTS" id="ortho" thumbgallery="img/basemap/ortho.jpg" label="Luc'hskeudenn dre nij IGN" title="PLuc'hskeudenn dre nij IGN"
+            url="https://data.geopf.fr/wmts" layers="ORTHOIMAGERY.ORTHOPHOTOS" format="image/jpeg" visible="false" fromcapacity="false"
+            style="normal" matrixset="PM" maxzoom="19"
+            attribution="&lt;a href='https://geoservices.ign.fr/services-geoplateforme-diffusion' target='_blank'>© IGN - Géoplateforme&lt;/a>" />
+    </baselayers>
+    <proxy url=""/>
+    <searchparameters bbox="false" localities="true" features="false" searchmaxzoomlevel="18" />
+    <olscompletion url="https://nominatim.openstreetmap.org/search?format=geojson&amp;accept-language=br" type="search"
+        attribution="Ar c'hlask lec'hioù a zo ur servij eus Nominatim"/>
+        <themes>
+        <theme name="Kartenn" id="kartenn" collapsed="false" icon="ri-map-2-line">
+            <layer id="klokter" name="Klokter ar gartenn" type="customlayer" visible="false" queryable="false" opacity="1"
+                url="apps/customlayers/osm_br_control.js"
+                attribution="OpenStreetMap Breizh" />
+        </theme>
+    </themes>
+</config>
