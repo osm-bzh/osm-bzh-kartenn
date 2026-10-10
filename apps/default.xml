@@ -24,5 +24,11 @@
     </baselayers>
     <proxy url=""/>
     <searchparameters bbox="false" localities="true" features="false" />
-    <themes/>
+        <themes>
+        <theme name="Kartenn" id="kartenn" collapsed="false" icon="ri-map-2-line">
+            <layer id="klokter" name="Klokter ar gartenn" type="customlayer" visible="false" queryable="false" opacity="1"
+                url="apps/customlayers/osm_br_control.js"
+                attribution="OpenStreetMap Breizh" />
+        </theme>
+    </themes>
 </config>
