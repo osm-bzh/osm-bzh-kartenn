@@ -36,7 +36,8 @@ panneau de gauche, thématique « Kartenn ».
 La barre de recherche interroge le service [Nominatim](https://nominatim.org/) d'OpenStreetMap
 (`https://nominatim.openstreetmap.org/search`) :
 
-- les résultats sont **limités à l'emprise de la carte** affichée (`viewbox` et `bounded=1`) ;
+- les résultats ne sont **pas limités à l'emprise de la carte** (`bbox="false"` dans `<searchparameters>`) ; avec
+  `bbox="true"`, la recherche est restreinte à la vue affichée (`viewbox` et `bounded=1`) ;
 - les noms sont demandés **en breton** (`accept-language=br`) ;
 - un clic sur un résultat **zoome au niveau 18** (`searchmaxzoomlevel`) et place un repère ;
 - la recherche se déclenche 500 ms après la dernière frappe.
@@ -47,7 +48,7 @@ La barre de recherche interroge le service [Nominatim](https://nominatim.org/) d
 
 ### Outils de la carte
 
-- zoom avant / arrière, retour à l'étendue de départ, localisation de l'utilisateur ;
+- zoom avant / arrière, **zoom par double-clic**, retour à l'étendue de départ, localisation de l'utilisateur ;
 - **mesure** de distances et de surfaces ;
 - **partage** de la carte (permalien, QR code, code d'intégration en iframe) ;
 - **export de la carte en image PNG** et **impression** de la vue courante ;
@@ -69,6 +70,14 @@ grep -n "(TODO)" mviewer.i18n.json
 Méthode utilisée : chaque texte français est décomposé en termes, cherchés dans le lexique An Drouizig
 (`gerva-an-drouizig-2017.csv`) puis sur [geriafurch.bzh](https://geriafurch.bzh/fr) (Termofis en priorité, puis
 Brezhoneg21 et Preder). Les phrases complètes ont ensuite été relues à la main.
+
+### Zoom au double-clic
+
+Un double-clic sur la carte zoome d'un niveau. mviewer le désactive en dur dans son code ; il est réactivé dans
+`js/mviewer.js` (ajout d'un écouteur sur les interactions de la carte). Il est **suspendu automatiquement pendant
+les outils de mesure et de dessin**, où le double-clic sert à terminer un tracé, puis rétabli à la fin du tracé.
+
+À reporter en cas de mise à jour de mviewer.
 
 ### Fenêtre de documentation
 

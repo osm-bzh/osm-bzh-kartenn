@@ -424,9 +424,6 @@ mviewer = (function () {
           },
         }),
       ],
-      interactions: ol.interaction.defaults.defaults({
-        doubleClickZoom: false,
-      }),
       overlays: overlays,
       renderer: _renderer,
       view: new ol.View({
@@ -442,6 +439,21 @@ mviewer = (function () {
           : undefined,
       }),
     });
+
+    // Zoom au double-clic, désactivé pendant les outils de dessin et de mesure
+    // (le double-clic y sert à terminer le tracé)
+    var _dblClickZoom = _map
+      .getInteractions()
+      .getArray()
+      .find((i) => i instanceof ol.interaction.DoubleClickZoom);
+    var _updateDblClickZoom = function () {
+      var drawing = _map
+        .getInteractions()
+        .getArray()
+        .some((i) => i instanceof ol.interaction.Draw && i.getActive());
+      if (_dblClickZoom) _dblClickZoom.setActive(!drawing);
+    };
+    _map.getInteractions().on(["add", "remove"], _updateDblClickZoom);
 
     var extent = mapoptions.extent
       ? ol.proj.transformExtent(
