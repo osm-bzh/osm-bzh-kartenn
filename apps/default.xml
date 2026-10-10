@@ -23,7 +23,7 @@
             attribution="&lt;a href='https://geoservices.ign.fr/services-geoplateforme-diffusion' target='_blank'>© IGN - Géoplateforme&lt;/a>" />
     </baselayers>
     <proxy url=""/>
-    <searchparameters bbox="true" localities="true" features="false" searchmaxzoomlevel="18" />
+    <searchparameters bbox="false" localities="true" features="false" searchmaxzoomlevel="18" />
     <olscompletion url="https://nominatim.openstreetmap.org/search?format=geojson&amp;accept-language=br" type="search"
         attribution="La recherche de lieux est un service de &lt;a href='https://nominatim.org/' target='_blank'>Nominatim&lt;/a> © les contributeurs d'&lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap&lt;/a>"/>
         <themes>
