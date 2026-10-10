@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <application title="Kartenn OpenStreetMap e brezhoneg" logo="osm_bzh.png" help="mviewer_help.html" measuretools="true" mapprint="true" exportpng="true" mouseposition="true"/>
+    <application title="Kartenn OpenStreetMap e brezhoneg" lang="br" logo="osm_bzh.png" help="mviewer_help.html" measuretools="true" mapprint="true" exportpng="true" mouseposition="true"/>
     <mapoptions maxzoom="18" projection="EPSG:3857" center="-322826,6140192" zoom="8" projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
 
     <baselayers style="default">
