@@ -317,7 +317,10 @@ var search = (function () {
       var extentCenter = _getCenterWithExtent(geom, _proj4326);
       var coords = geom.getCoordinates();
       const poiType = props?.type || res[i]?.kind;
-      const zoom = zoomByType[poiType] || 14;
+      // Nominatim (display_name) : zoom fixé par searchmaxzoomlevel
+      const zoom = props?.display_name
+        ? Number(_searchparams.searchmaxzoomlevel)
+        : zoomByType[poiType] || 14;
       let title = "";
       if (type === "search") {
         title = `${props?.context}-${props?.type}` || "";
@@ -332,7 +335,7 @@ var search = (function () {
               mviewer.showLocation('${_proj4326}', ${coords[0]}, ${coords[1]}, ${
         _searchparams.marker
       });">
-              ${props?.label || res[i].fulltext}
+              ${props?.label || props?.display_name || res[i].fulltext}
           </a>`;
     }
     $(searchType).remove();
@@ -383,6 +386,11 @@ var search = (function () {
           var center = ol.extent.getCenter(extent4326);
           parameters.lon = center[0];
           parameters.lat = center[1];
+          // Nominatim : limite les résultats à l'emprise de la carte
+          if (_olsCompletionUrl.includes("nominatim")) {
+            parameters.viewbox = parameters.bbox;
+            parameters.bounded = 1;
+          }
         }
         // create URL
         const searchUrl = new URL(_olsCompletionUrl);
