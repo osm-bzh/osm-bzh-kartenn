@@ -1,6 +1,8 @@
 // Couche de contrôle OSM Breizh (tuiles XYZ) ajoutée en surcouche
 (function () {
   var layer = new ol.layer.Tile({
+    // masquée à partir du zoom 13 (maxZoom est inclusif)
+    minZoom: 10,
     source: new ol.source.XYZ({
       url: "https://tile.openstreetmap.bzh/br_control/{z}/{x}/{y}.png",
       crossOrigin: "anonymous",
