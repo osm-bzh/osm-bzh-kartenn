@@ -429,6 +429,8 @@ mviewer = (function () {
       view: new ol.View({
         projection: _projection,
         maxZoom: mapoptions.maxzoom || 19,
+        // zoom sur des niveaux entiers uniquement : évite des tuiles agrandies et floues
+        constrainResolution: true,
         center: _center,
         enableRotation: _rotation,
         zoom: _zoom,
